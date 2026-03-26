@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type="module">
+
+        const names = ['John', 'Jane,', 'Henry', 'Madeleine', 'John'];
+        console.log(new Set(names));
+        console.log(Array.from(new Set(names)));
+        console.log(
+            [...new Set(names)]
+        );
+
+        const persons = [
+            {name: 'John Doe', age: 18, id: 1},
+            {name: 'Jane Doe', age: 28, id : 2},
+            {name: 'Henry Doe', age: 32, id: 2},
+        ];
+        const ul = document.querySelector('ul');
+        const liMap = new Map();
+        persons.forEach(person => {
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${person.name}</strong>: ${person.age}`;
+            ul.appendChild(li);
+            liMap.set(person, li);
+        });
+        console.log(liMap.get(persons[1]));
+
+        
+        class UniqueSet{
+            #map = new Map();
+
+            constructor(cb, items){
+                for (const item of items){
+                    const key = cb(item)
+                    if(!this.#map.has(key))
+                    this.#map.set(key, item)
+                };
+            };
+            values(){
+                return this.#map.values();
+            };
+
+            delete(key){
+                this.#map.delete(key);
+            }
+        };
+
+        const p = new UniqueSet((p) => p.id, persons);
+        p.delete(2);
+        console.log(Array.from(p.values()));
+
+    </script>
+    <ul>
+
+    </ul>
+</body>
+</html>
